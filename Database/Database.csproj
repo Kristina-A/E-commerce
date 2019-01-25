@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\Message.cs" />
+    <Compile Include="DomainModel\Order.cs" />
+    <Compile Include="DomainModel\Ordered.cs" />
+    <Compile Include="DomainModel\Product.cs" />
+    <Compile Include="DomainModel\Review.cs" />
+    <Compile Include="DomainModel\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
