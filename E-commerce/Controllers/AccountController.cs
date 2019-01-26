@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using E_commerce.Models;
+using Database;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace E_commerce.Controllers
 {
@@ -153,10 +155,38 @@ namespace E_commerce.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+
+                    // Code for adding admins to db
+                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                    await UserManager.AddToRoleAsync(user.Id, "User");
+
+                    //await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    //await UserManager.AddToRoleAsync(user.Id, "Admin");
+                    //////////////////////////////////////////////////////
+
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+
+                    // Adding user to mongodb 
+                    MongodbFunctions mongo = new MongodbFunctions();
+
+                    Database.DomainModel.User newUser = new Database.DomainModel.User
+                    {
+                        Email = model.Email,
+                        Name = model.FirstName,
+                        Phone = model.Phone,
+                        Surname = model.Surname
+                    };
+                    newUser.Address.Add(model.Address);
+
+                    mongo.InsertUser(newUser);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
