@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\Category.cs" />
     <Compile Include="DomainModel\Message.cs" />
     <Compile Include="DomainModel\Order.cs" />
     <Compile Include="DomainModel\Ordered.cs" />
