@@ -11,7 +11,7 @@ namespace Database.DomainModel
     public class Product
     {
         public ObjectId Id { get; set; }
-        public string Category { get; set; }
+        public MongoDBRef Category { get; set; }
         public string Name { get; set; }
         public List<string> Characteristics { get; set; }
         public List<MongoDBRef> Messages { get; set; }
