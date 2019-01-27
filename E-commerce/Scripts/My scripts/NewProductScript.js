@@ -74,4 +74,41 @@ $(document).ready(function () {
             document.getElementById("deleteCharacteristic").style.display = "none";
         }
     });
+
+    $("#addNewProduct").on('click', function () {
+        var name = $("#inputName").val();
+        var category = $("#selectCategory").val();
+        var subcategory = $("#selectSubcat").val();
+        var pictureBtn = document.getElementById("btnProductPicture");
+        var picture = pictureBtn.files[0];
+        var characteristics = [];
+
+        var formData = new FormData();
+        formData.append("name", name);
+        formData.append("category", category);
+        formData.append("subcategory", subcategory);
+        formData.append("picture", picture);
+
+        for (var i = 1; i <= numCharacteristics; i++) {
+            var subcat = $("#inputCharName" + i).val();
+            var subcatVal = $("#inputCharValue" + i).val();
+            characteristics.push(subcat + ":" + subcatVal);
+        };
+        formData.append("characteristics", JSON.stringify(characteristics));
+
+        $.ajax({
+            type: "POST",
+            url: '/Product/AddNewProduct',
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            success: function () {  
+                window.location.href = '/Home/Index';
+            },
+            error: function () {
+                alert("fail");
+            }
+        });
+    });
 })

@@ -23,14 +23,14 @@
         <div class="form-group row">
             <label class="col-sm-4 control-label">Kategorija:</label>
             <div class="col-sm-7">
-                <select class="custom-select">
+                <select class="custom-select" id="selectCategory">
                     <option selected>Izaberite jednu kategoriju</option>
-                    <option value="1">Mobilni uređaji</option>
-                    <option value="2">Računari i komponente</option>
-                    <option value="3">TV, audio, foto, video</option>
-                    <option value="4">Monitori, periferije, štampači i konzole</option>
-                    <option value="5">Mrežna oprema</option>
-                    <option value="6">Bela tehnika</option>
+                    <option value="mobilni">Mobilni uređaji</option>
+                    <option value="racunari">Računari i komponente</option>
+                    <option value="tv">TV, audio, foto, video</option>
+                    <option value="monitori">Monitori, periferije, štampači i konzole</option>
+                    <option value="mreznaOprema">Mrežna oprema</option>
+                    <option value="belaTehnika">Bela tehnika</option>
                 </select>
             </div>
         </div>
@@ -38,7 +38,7 @@
         <div class="form-group row">
             <label class="col-sm-4 control-label">Potkategorija:</label>
             <div class="col-sm-7">
-                <select class="custom-select">
+                <select class="custom-select" id="selectSubcat">
                     <option selected>Izaberite jednu potkategoriju</option>
                     <option value="1">aaa</option>
                     <option value="2">bbb</option>
@@ -49,13 +49,13 @@
 
         <div class="form-group row">
             <label class="col-sm-4 control-label">Dodaj sliku:</label>
-            <input type="file" class="form-control-file" id="btnProductPicture">
+            <input type="file" class="form-control-file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" id="btnProductPicture">
         </div>
 
         <br />
         <br />
-        <button class="btn btn-success col-sm-offset-3 btn-lg" id="addNewProduct" type="button"><i class="glyphicon glyphicon-ok"></i><span>&nbsp; Dodaj proizvod</span></button>
-        <button class="btn btn-danger col-sm-offset-1 btn-lg" id="discardAdding" type="button"><i class="glyphicon glyphicon-remove"></i><span>&nbsp; Otkaži dodavanje</span></button>
+        <button class="btn btn-success col-sm-offset-3 btn-lg" id="addNewProduct" type="button"><i class="fas fa-check"></i><span>&nbsp; Dodaj proizvod</span></button>
+        <button class="btn btn-danger col-sm-offset-1 btn-lg" id="discardAdding" type="button"><i class="fas fa-times"></i><span>&nbsp; Otkaži dodavanje</span></button>
         <br /> <br />
     </form>
 
@@ -81,8 +81,8 @@
     </form>
 
     <div class="form-group row" style="margin-left:600px">
-           <button class="btn btn-success" id="addNewCharacteristic" type="button"><span>&nbsp; Dodaj novu karakteristiku</span></button>
-           <button class="btn btn-danger" id="deleteCharacteristic" type="button" style="display:none"><span>&nbsp; Obriši karakteristiku</span></button>
+           <button class="btn btn-success" id="addNewCharacteristic" type="button"><i class="fas fa-plus"></i><span>&nbsp; Dodaj novu karakteristiku</span></button>
+           <button class="btn btn-danger" id="deleteCharacteristic" type="button" style="display:none"><i class="fas fa-trash-alt"></i><span>&nbsp; Obriši karakteristiku</span></button>
     </div>
 </div>
 

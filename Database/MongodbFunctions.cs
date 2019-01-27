@@ -30,6 +30,12 @@ namespace Database
             usersCollection.InsertOne(user.ToBsonDocument());
         }
 
+        public void InsertProduct(Product product)
+        {
+            var productsCollection = db.GetCollection<BsonDocument>("products");
+
+            productsCollection.InsertOne(product.ToBsonDocument());
+        }
 
     }
 }
