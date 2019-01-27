@@ -64,7 +64,7 @@ $(document).ready(function () {
     });
 
     $("#discardAdding").on('click', function () {
-        window.location.href = '/Product/IndexAdmin';
+        window.location.href = '/Home/Index';
     });
 
     $("#deleteCharacteristic").on('click', function () {
