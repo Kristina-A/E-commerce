@@ -225,6 +225,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Adverts\CustomstranaGeforcegtx10.jpg" />
+    <Content Include="Resources\Adverts\custom_34.jpg" />
+    <Content Include="Resources\Adverts\custom_35.jpg" />
+    <Content Include="Resources\Adverts\LGMC_Akcija_Qserija_custom_1200x628px.jpg" />
+    <Content Include="Resources\Logo Blue.png" />
+    <Content Include="Resources\Logo Green.png" />
+    <Content Include="Resources\Logo Orange.png" />
+    <Content Include="Resources\Logo Yellow.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -263,6 +271,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\My scripts\HomePageScript.js" />
     <Content Include="Scripts\My scripts\NewProductScript.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -321,7 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

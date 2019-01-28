@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELFAK Web shop</title>
+    <title>GBC Web shop</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -13,8 +13,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 
         <!--ICON-->
-        <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="margin-left: 60px;">
-            <i class="fas fa-grin-squint-tears fa-spin fa-lg"></i>
+        <a class="navbar-brand offset-10" href="@Url.Action("Index", "Home")" style="margin-left: 60px;">
+            <img id="logo" src="~/Resources/Logo Orange.png" alt="GBC Web Shop" width="150" height="60"/>
         </a>
 
         <!--HAMBURGER FOR RESPONSIVENESS-->
@@ -23,29 +23,22 @@
         </button>
 
         <!--LINKS NEXT TO ICON THAT WILL BE COLLAPSED WHEN SCREEN IS SMALLER-->
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-home"></i>
-                        Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "TopRated")">
-                        <i class="fa fa-trophy"></i>
-                        Top Rated
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("AllMessages", "Message")">
-                        <i class="fa fa-envelope-o"></i>
-                        Messages
-                        <span class="badge badge-primary badge-pill" id="unreadedMessagesBadge"></span>
-                    </a>
-                </li>
-            </ul>
+        <div class="collapse navbar-collapse offset-lg-6" id="navbarTogglerDemo02">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge badge-secondary">0</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <p class="dropdown-item">Total: $$$</p>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Item 1</a>
+                    <a class="dropdown-item" href="#">Item 2</a>
+                    <a class="dropdown-item" href="#">Item 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item btn-outline-dark" href="#">Check out</a>
+                </div>
+            </div>
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
