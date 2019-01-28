@@ -79,6 +79,7 @@ $(document).ready(function () {
         var name = $("#inputName").val();
         var category = $("#selectCategory").val();
         var subcategory = $("#selectSubcat").val();
+        var price = $("#inputPrice").val();
         var pictureBtn = document.getElementById("btnProductPicture");
         var picture = pictureBtn.files[0];
         var characteristics = [];
@@ -87,6 +88,7 @@ $(document).ready(function () {
         formData.append("name", name);
         formData.append("category", category);
         formData.append("subcategory", subcategory);
+        formData.append("price", price);
         formData.append("picture", picture);
 
         for (var i = 1; i <= numCharacteristics; i++) {
@@ -105,6 +107,26 @@ $(document).ready(function () {
             data: formData,
             success: function () {  
                 window.location.href = '/Home/Index';
+            },
+            error: function () {
+                alert("fail");
+            }
+        });
+    });
+
+    $("#selectCategory").change(function () {
+        var category = this.value;
+
+        $.ajax({
+            type: "POST",
+            url: '/Product/ReturnSubcategories',
+            data: { "option": category },
+            success: function (data) {
+                $("#selectSubcat").empty();
+                $("#selectSubcat").append(new Option("Izaberite jednu potkategoriju", "",true));
+                for (var i = 0; i < data.subcat.length; i++) {                   
+                    $("#selectSubcat").append(new Option(data.subcat[i], data.subcat[i]));
+                };
             },
             error: function () {
                 alert("fail");

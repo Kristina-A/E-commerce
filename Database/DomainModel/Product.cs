@@ -15,7 +15,9 @@ namespace Database.DomainModel
         public MongoDBRef Category { get; set; }
         public string Name { get; set; }
         public List<string> Characteristics { get; set; }
-
+        public int Price { get; set; }
+        public string Subcategory { get; set; }
+        public string Picture { get; set; }
         [BsonIgnore]
         public List<MongoDBRef> Messages { get; set; }
 
