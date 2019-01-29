@@ -18,10 +18,7 @@ namespace Database.DomainModel
         public int Price { get; set; }
         public string Subcategory { get; set; }
         public string Picture { get; set; }
-        [BsonIgnore]
         public List<MongoDBRef> Messages { get; set; }
-
-        [BsonIgnore]
         public List<MongoDBRef> Reviews { get; set; }
 
         public Product()

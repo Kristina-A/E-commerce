@@ -48,5 +48,19 @@ namespace E_commerce.Controllers
 
             return Json(new { subcat = subcategories }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ProductDetails(string name)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            if (name.Equals(""))
+                return RedirectToAction("Home", "Index");
+
+            Database.DomainModel.Product product = mongo.GetProduct(name);
+            if (product != null)
+                return View(product);
+            else
+                return HttpNotFound();
+        }
     }
 }

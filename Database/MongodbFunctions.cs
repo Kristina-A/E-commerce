@@ -60,5 +60,15 @@ namespace Database
             return categories.First();
         }
 
+        public Product GetProduct(string name)
+        {
+            var productsCollesction = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.Eq("Name", name);
+            var products = productsCollesction.Find(filter);
+
+            return products.First();
+        }
+
     }
 }
