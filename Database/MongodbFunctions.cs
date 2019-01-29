@@ -60,11 +60,11 @@ namespace Database
             return categories.First();
         }
 
-        public Product GetProduct(string name)
+        public Product GetProduct(ObjectId id)
         {
             var productsCollesction = db.GetCollection<Product>("products");
 
-            var filter = Builders<Product>.Filter.Eq("Name", name);
+            var filter = Builders<Product>.Filter.Eq("_id", id);
             var products = productsCollesction.Find(filter);
 
             return products.First();

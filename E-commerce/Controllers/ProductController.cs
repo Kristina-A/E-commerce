@@ -49,14 +49,16 @@ namespace E_commerce.Controllers
             return Json(new { subcat = subcategories }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ProductDetails(string name)
+        public ActionResult ProductDetails(string id)
         {
             MongodbFunctions mongo = new MongodbFunctions();
 
-            if (name.Equals(""))
+            if (id.Equals(""))
                 return RedirectToAction("Home", "Index");
 
-            Database.DomainModel.Product product = mongo.GetProduct(name);
+            ObjectId objID = new ObjectId(id);
+
+            Database.DomainModel.Product product = mongo.GetProduct(objID);
             if (product != null)
                 return View(product);
             else
