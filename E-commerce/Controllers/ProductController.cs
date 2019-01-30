@@ -64,5 +64,36 @@ namespace E_commerce.Controllers
             else
                 return HttpNotFound();
         }
+
+        [HttpPost]
+        public void DeleteProduct(string id)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+            ObjectId objID = new ObjectId(id);
+            mongo.DeleteProduct(objID);
+        }
+
+        [HttpPost]
+        public void EditProduct(string id, string name, int price)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId objID = new ObjectId(id);
+
+            var picture = Request.Files["picture"];
+            string path;
+            if (picture != null)
+            {
+                string savePath = System.IO.Path.Combine(Server.MapPath("~/Resources"), name + System.IO.Path.GetExtension(picture.FileName));
+                picture.SaveAs(savePath);
+                path = name + System.IO.Path.GetExtension(picture.FileName);
+            }
+            else
+            {
+                Database.DomainModel.Product product = mongo.GetProduct(objID);
+                path = product.Picture;
+            }
+            mongo.UpdateProduct(objID, name, price, path);
+        }
     }
 }

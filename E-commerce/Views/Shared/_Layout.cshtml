@@ -24,21 +24,24 @@
 
         <!--LINKS NEXT TO ICON THAT WILL BE COLLAPSED WHEN SCREEN IS SMALLER-->
         <div class="collapse navbar-collapse offset-lg-6" id="navbarTogglerDemo02">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge badge-secondary">0</span>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <p class="dropdown-item">Total: $$$</p>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Item 1</a>
-                    <a class="dropdown-item" href="#">Item 2</a>
-                    <a class="dropdown-item" href="#">Item 3</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item btn-outline-dark" href="#">Check out</a>
+            @if (User.IsInRole("User"))
+            {
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge badge-secondary">0</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <p class="dropdown-item">Total: $$$</p>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Item 1</a>
+                        <a class="dropdown-item" href="#">Item 2</a>
+                        <a class="dropdown-item" href="#">Item 3</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item btn-outline-dark" href="#">Check out</a>
+                    </div>
                 </div>
-            </div>
+            }
             @Html.Partial("_LoginPartial")
         </div>
     </nav>

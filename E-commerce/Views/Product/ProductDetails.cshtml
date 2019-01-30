@@ -10,34 +10,60 @@
 
 <div class="row">
     <div class="col-md-6">
-        <img src="~/Resources/@Model.Picture" class="rounded col-md-6" alt="Product picture" style="width:300px; height:200px" data-toggle="modal" data-target="#pictureModal">
+        <img src="~/Resources/@Model.Picture" class="rounded col-md-6" id="pictureBox" alt="Product picture" style="width:300px; height:200px" data-toggle="modal" data-target="#pictureModal">
     </div>
     <div class="col-md-6 float-right">
-        <button type="button" class="btn btn-info btn-lg"><span>Dodaj u korpu &nbsp;</span><i class="fas fa-shopping-cart"></i></button>
+        @if (User.IsInRole("Admin"))
+        {
+            <button type="button" class="@Model.Id btn btn-info btn-lg" id="editProduct" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni proizvod</span></button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-info btn-lg"><span>Dodaj u korpu &nbsp;</span><i class="fas fa-shopping-cart"></i></button>
+        }
         <br />
         <br />
         <h5 class="col-sm-6 control-label">Cena: @Model.Price</h5>
         <br />
         <br />
         <br />
-        <label class="col-sm-6 control-label">Ocenite proizvod: <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></label>
+        @if (User.IsInRole("Admin"))
+        {
+            <button type="button" class="@Model.Id btn btn-danger btn-lg" id="deleteProduct"><i class="fas fa-trash-alt"></i><span>&nbsp; Obriši proizvod</span></button>
+        }
+        else
+        {
+            <label class="col-sm-6 control-label">Ocenite proizvod: <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></label>
+        }
     </div>
 </div>
 <br />
 <br />
-<table class="table table-striped">
+<table class="table table-striped col-md-9">
     <thead>
         <tr class="table-info">
             <th>Karakteristike</th>
+            @if(User.IsInRole("Admin"))
+            {
+            <th>
+                <button type="button" class="@Model.Id btn btn-info" id="addChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-plus"></i><span>&nbsp; Dodaj karakteristiku</span></button>
+            </th>
+            }
         </tr>
     </thead>
     <tbody>
-        @foreach(var characteristic in Model.Characteristics)
+        @foreach (var characteristic in Model.Characteristics)
         {
             var list = characteristic.Split(':');
         <tr>
-            <td>@list[0]</td>
-            <td>@list[1]</td>
+            <td class="name">@list[0]</td>
+            <td class="value">@list[1]</td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <button type="button" class="@Model.Id btn btn-info" id="editChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni</span></button>
+                </td>
+            }
         </tr>
         }
     </tbody>
@@ -58,3 +84,71 @@
         </div>
     </div>
 </div>
+
+<!--Modal za edit proizvoda, ne moze sve da se menja-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label">Naziv:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputEditName" value="@Model.Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label">Cena:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputEditPrice" value="@Model.Price">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label">Slika:</label>
+                    <input type="file" class="form-control-file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*" id="btnEditPicture">
+                </div>
+                <br />
+                <button class="btn btn-success col-sm-offset-3" id="saveEditing" type="button"><i class="fas fa-check"></i><span>&nbsp; Sačuvaj izmene</span></button>
+                <button class="btn btn-danger col-sm-offset-1" id="discardEditing" type="button"><i class="fas fa-times"></i><span>&nbsp; Otkaži</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal za dodavanje i edit karakteristika-->
+<div class="modal fade" id="characteristicsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label">Naziv:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputNameChar">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 control-label">Vrednost:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="inputValueChar">
+                    </div>
+                </div>
+                <br />
+                <button class="btn btn-success col-sm-offset-3" id="saveChar" type="button"><i class="fas fa-check"></i><span>&nbsp; Sačuvaj</span></button>
+                <button class="btn btn-danger col-sm-offset-1" id="discardChar" type="button"><i class="fas fa-times"></i><span>&nbsp; Otkaži</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/My scripts/ProductDetailsScript.js")
+}

@@ -62,12 +62,31 @@ namespace Database
 
         public Product GetProduct(ObjectId id)
         {
-            var productsCollesction = db.GetCollection<Product>("products");
+            var productsCollection = db.GetCollection<Product>("products");
 
             var filter = Builders<Product>.Filter.Eq("_id", id);
-            var products = productsCollesction.Find(filter);
+            var products = productsCollection.Find(filter);
 
             return products.First();
+        }
+
+        public void DeleteProduct(ObjectId id)
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.Eq("_id", id);
+            productsCollection.DeleteOne(filter);
+        }
+
+        public void UpdateProduct(ObjectId id, string name, int price, string path)
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.Eq("_id", id);
+            var update = Builders<Product>.Update.Set("Name", name)
+                                                .Set("Price", price)
+                                                .Set("Picture", path);
+            productsCollection.UpdateOne(filter, update);
         }
 
     }
