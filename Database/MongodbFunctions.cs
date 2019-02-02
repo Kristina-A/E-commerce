@@ -31,11 +31,19 @@ namespace Database
             usersCollection.InsertOne(user);
         }
 
-        public void InsertProduct(Product product)
+        public void InsertProduct(Product product, string cat)
         {
             var productsCollection = db.GetCollection<Product>("products");
+            var categoriesCollection = db.GetCollection<Category>("categories");
+            var filter = Builders<Category>.Filter.Eq("Name", cat);
 
             productsCollection.InsertOne(product);
+
+            Category category = GetCategory(cat);
+            category.Products.Add(new MongoDBRef("products", product.Id));
+            var update = Builders<Category>.Update.Set("Products", category.Products);
+
+            categoriesCollection.UpdateOne(filter, update);
         }
 
         public List<string> GetSubcategories (string category)
@@ -87,6 +95,51 @@ namespace Database
                                                 .Set("Price", price)
                                                 .Set("Picture", path);
             productsCollection.UpdateOne(filter, update);
+        }
+
+        public void UpdateCharacteristics(ObjectId id, List<string> characteristics)
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.Eq("_id", id);
+            var update = Builders<Product>.Update.Set("Characteristics", characteristics);
+            productsCollection.UpdateOne(filter, update);
+        }
+
+        public Review GetReview(ObjectId id)
+        {
+            var reviewsCollection = db.GetCollection<Review>("reviews");
+
+            var filter = Builders<Review>.Filter.Eq("_id", id);
+            var reviews = reviewsCollection.Find(filter);
+
+            return reviews.First();
+        }
+
+        public List<double> AverageGrade(ObjectId id)//id proizvoda za prosecnu ocenu
+        {
+            List<double> lista = new List<double>();
+            var reviewsCollection = db.GetCollection<Review>("reviews");
+            var filter = Builders<Review>.Filter.Eq("Product", id);
+            var res = reviewsCollection.Aggregate().Match(filter).Group(c => c.Product, g =>
+                     new
+                     {
+                         AvgGrade = g.Average(p => p.Grade),
+                         Number = g.Count()
+                     }).ToList();
+
+            if (res.Count == 0)
+            {
+                lista.Add(0.0);//prosecna ocena
+                lista.Add(0.0);//br reviewa
+                return lista;
+            }
+            else
+            {
+                lista.Add(res.Select(_ => _.AvgGrade).First());
+                lista.Add(res.Select(_ => _.Number).First());
+                return lista;
+            }
         }
 
     }

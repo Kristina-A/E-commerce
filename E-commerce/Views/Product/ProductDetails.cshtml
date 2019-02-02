@@ -10,12 +10,12 @@
 
 <div class="row">
     <div class="col-md-6">
-        <img src="~/Resources/@Model.Picture" class="rounded col-md-6" id="pictureBox" alt="Product picture" style="width:300px; height:200px" data-toggle="modal" data-target="#pictureModal">
+        <img src="~/Resources/@Model.Picture" class="@Model.Id rounded col-md-6" id="pictureBox" alt="Product picture" style="width:300px; height:200px" data-toggle="modal" data-target="#pictureModal">
     </div>
     <div class="col-md-6 float-right">
         @if (User.IsInRole("Admin"))
         {
-            <button type="button" class="@Model.Id btn btn-info btn-lg" id="editProduct" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni proizvod</span></button>
+            <button type="button" class="btn btn-info btn-lg" id="editProduct" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni proizvod</span></button>
         }
         else
         {
@@ -24,12 +24,12 @@
         <br />
         <br />
         <h5 class="col-sm-6 control-label">Cena: @Model.Price</h5>
-        <br />
+        <h5 class="col-sm-6 control-label" id="lblGrade">Prosečna ocena </h5>
         <br />
         <br />
         @if (User.IsInRole("Admin"))
         {
-            <button type="button" class="@Model.Id btn btn-danger btn-lg" id="deleteProduct"><i class="fas fa-trash-alt"></i><span>&nbsp; Obriši proizvod</span></button>
+            <button type="button" class="btn btn-danger btn-lg" id="deleteProduct"><i class="fas fa-trash-alt"></i><span>&nbsp; Obriši proizvod</span></button>
         }
         else
         {
@@ -39,14 +39,14 @@
 </div>
 <br />
 <br />
-<table class="table table-striped col-md-9">
+<table class="table table-striped col-md-9" id="charTable">
     <thead>
         <tr class="table-info">
             <th>Karakteristike</th>
             @if(User.IsInRole("Admin"))
             {
             <th>
-                <button type="button" class="@Model.Id btn btn-info" id="addChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-plus"></i><span>&nbsp; Dodaj karakteristiku</span></button>
+                <button type="button" class="btn btn-info" id="addChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-plus"></i><span>&nbsp; Dodaj karakteristiku</span></button>
             </th>
             }
         </tr>
@@ -61,7 +61,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <td>
-                    <button type="button" class="@Model.Id btn btn-info" id="editChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni</span></button>
+                    <button type="button" class="btn btn-info" id="editChar" data-toggle="modal" data-target="#characteristicsModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni</span></button>
                 </td>
             }
         </tr>

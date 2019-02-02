@@ -37,7 +37,7 @@ namespace E_commerce.Controllers
                 Characteristics = JsonConvert.DeserializeObject<List<string>>(characteristics)
             };
 
-            mongo.InsertProduct(newProduct);
+            mongo.InsertProduct(newProduct,category);
         }
 
         [HttpPost]
@@ -94,6 +94,58 @@ namespace E_commerce.Controllers
                 path = product.Picture;
             }
             mongo.UpdateProduct(objID, name, price, path);
+        }
+
+        [HttpPost]
+        public void EditCharacteristics(string id, string charName, string charValue, string oldN, string oldV)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId objID = new ObjectId(id);
+            Database.DomainModel.Product product = mongo.GetProduct(objID);
+
+            List<string> chars = product.Characteristics;
+            string newChar = charName + ":" + charValue;
+
+            if (oldN.Equals("") || oldV.Equals(""))
+            {
+                chars.Add(newChar);
+            }
+            else
+            {
+                int index = chars.IndexOf(oldN + ":" + oldV);
+                chars.RemoveAt(index);
+                chars.Insert(index, newChar);
+            }
+
+            mongo.UpdateCharacteristics(objID, chars);
+        }
+
+        [HttpPost]
+        public JsonResult AverageGrade(string id)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId objID = new ObjectId(id);
+            //Database.DomainModel.Product product = mongo.GetProduct(objID);
+
+            //List<MongoDBRef> reviews = product.Reviews;
+            //int count;
+            //double avg;
+
+
+            //count = reviews.Count;
+            //avg = 0.0;
+            //foreach(MongoDBRef r in reviews)
+            //{
+            //    Database.DomainModel.Review rev = mongo.GetReview(new ObjectId(r.Id.ToString()));
+            //    avg += rev.Grade;
+            //}
+            //avg /= count;
+
+            List<double> lista = mongo.AverageGrade(objID);//pitanje dal ce da radi kad se dodaju reviewi
+
+            return Json(new {number=lista[1],grade=lista[0] },JsonRequestBehavior.AllowGet);
         }
     }
 }
