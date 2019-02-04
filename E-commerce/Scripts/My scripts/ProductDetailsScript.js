@@ -3,28 +3,63 @@
     $("#inputValueChar").val("");
 }
 
-//function addRow(name, value) {
-//    var body = document.getElementById("charTable").getElementsByTagName("tbody")[0];
+function addComment(name, surname, comment, role) {
+    var div = document.getElementById("comments");
 
-//    var newRow = document.createElement("tr");
+    var commentDiv = document.createElement("div");
 
-//    var dataName = document.createElement("td");
-//    dataName.setAttribute("class", "name");
-//    dataName.innerHTML = name;
+    var labelUser = document.createElement("label");
+    labelUser.setAttribute("class", "col-sm-7");
+    labelUser.style.color = "blue";
+    labelUser.innerHTML = name + " " + surname;
 
-//    var dataValue = document.createElement("td");
-//    dataValue.setAttribute("class", "value");
-//    dataValue.innerHTML = value;
+    var labelContent = document.createElement("label");
+    labelContent.setAttribute("class", "col-sm-7");
+    labelContent.innerHTML = comment;
 
-//    var dataButton = document.createElement("td");
-//    var button = document.getElementById("editChar");
+    var labelReply;
+    if (role == "Admin") {
+        labelReply = document.createElement("label");
+        labelReply.setAttribute("class", "col-sm-7");
+        labelReply.innerHTML = "odgovor";
+        labelReply.style.marginLeft = "50px";
+        labelReply.style.color = "blue";
+    }
 
-//    dataButton.appendChild(button);
-//    newRow.appendChild(dataName);
-//    newRow.appendChild(dataValue);
-//    newRow.appendChild(dataButton);
-//    body.appendChild(newRow);
-//}
+    commentDiv.appendChild(labelUser);
+    commentDiv.appendChild(labelContent);
+    if(role=="Admin")
+        commentDiv.appendChild(labelReply);
+    div.appendChild(commentDiv);
+}
+
+function addReview(name, surname, grade, comment) {
+    var div = document.getElementById("reviews");
+
+    var reviewDiv = document.createElement("div");
+
+    var labelUser = document.createElement("label");
+    labelUser.setAttribute("class", "col-sm-4");
+    labelUser.style.color = "blue";
+    labelUser.innerHTML = name + " " + surname;
+
+    var labelGrade = document.createElement("label");
+    labelGrade.setAttribute("class", "col-sm-6");
+    labelGrade.innerHTML = grade;
+
+    var star = document.createElement("i");
+    star.setAttribute("class", "fas fa-star");
+
+    var labelComment = document.createElement("label");
+    labelComment.setAttribute("class", "col-sm-6");
+    labelComment.innerHTML = comment;
+
+    reviewDiv.appendChild(labelUser);
+    labelGrade.appendChild(star);
+    reviewDiv.appendChild(labelGrade);
+    reviewDiv.appendChild(labelComment);
+    div.appendChild(reviewDiv);
+}
 
 
 $(document).ready(function () {
@@ -140,6 +175,123 @@ $(document).ready(function () {
                 else {
                     window.location.href = '/Product/ProductDetails/' + prodID;
                 }
+            },
+            error: function () {
+                alert("fail");
+            }
+        });
+    });
+
+    $("#showReviews").on("click", function () {
+        if ($(this).attr("class") != "disabled") {
+            $.ajax({
+                type: "POST",
+                url: '/Product/GetReviews',
+                data: { "id": prodID },
+                success: function (data) {
+                    var num = data.number;
+                    for (var i = 0; i < num; i++) {
+                        addReview(data.people[i]["Name"], data.people[i]["Surname"], data.revs[i]["Grade"], data.revs[i]["Comment"]);
+                    }
+                    $("#showReviews").addClass("disabled");
+                },
+                error: function () {
+                    alert("fail");
+                }
+            });
+        }
+    });
+
+    $("#showReviews").on({
+        mouseenter: function () {
+            $(this).css("color", "red");
+            $(this).css("cursor", "pointer");
+        },
+        mouseleave: function () {
+            $(this).css("color", "black");
+        }
+    });
+
+    $("#showComments").on({
+        mouseenter: function () {
+            $(this).css("color", "red");
+            $(this).css("cursor", "pointer");
+        },
+        mouseleave: function () {
+            $(this).css("color", "black");
+        }
+    });
+
+    $("#showComments").on("click", function () {
+        if ($(this).attr("class") != "disabled") {
+            $.ajax({
+                type: "POST",
+                url: '/Product/GetComments',
+                data: { "id": prodID },
+                success: function (data) {
+                    var num = data.number;
+                    for (var i = 0; i < num; i++) {
+                        var role = data.status;
+                        addComment(data.people[i]["Name"], data.people[i]["Surname"], data.com[i]["Content"], role);
+                    }
+                    $("#showComments").addClass("disabled");
+                },
+                error: function () {
+                    alert("fail");
+                }
+            });
+        }
+    });
+
+    $("#postComment").on("click", function () {
+        var txt = $("#comment").val();
+
+        $.ajax({
+            type: "POST",
+            url: '/Product/AddComment',
+            data: { "prodId": prodID, "content":txt },
+            success: function () {
+                window.location.href = '/Product/ProductDetails/' + prodID;
+            },
+            error: function () {
+                alert("fail");
+            }
+        });
+    });
+
+    $(".far.fa-star").on({
+        mouseenter: function () {
+            for (var i = 1; i <= $(this).attr("id");i++)
+                $("#"+i).attr("class", "fas fa-star");
+            $(this).css("cursor", "pointer");
+        },
+        mouseleave: function () {
+            for (var i = 1; i <= $(this).attr("id"); i++)
+                $("#" + i).attr("class", "far fa-star");
+        }
+    });
+
+    $("#discardReview").on("click", function () {
+        $("#reviewModal").modal("toggle");
+    });
+
+    $("#reviewModal").on("show.bs.modal", function (e) {
+        var star = e.relatedTarget.id;
+        $("#inputComment").val("");
+        $("#lblStar").text(star);
+    });
+
+    $("#saveReview").on("click", function () {
+        var star = $("#lblStar").text();
+        var comm = $("#inputComment").val();
+
+        $.ajax({
+            type: "POST",
+            url: '/Product/AddReview',
+            data: { "id": prodID, "grade": star, "comment": comm },
+            success: function () {
+                $("#reviewModal").modal("toggle");
+                window.location.href = '/Product/ProductDetails/' + prodID;
             },
             error: function () {
                 alert("fail");

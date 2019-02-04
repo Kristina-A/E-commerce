@@ -127,25 +127,126 @@ namespace E_commerce.Controllers
             MongodbFunctions mongo = new MongodbFunctions();
 
             ObjectId objID = new ObjectId(id);
-            //Database.DomainModel.Product product = mongo.GetProduct(objID);
 
-            //List<MongoDBRef> reviews = product.Reviews;
-            //int count;
-            //double avg;
-
-
-            //count = reviews.Count;
-            //avg = 0.0;
-            //foreach(MongoDBRef r in reviews)
-            //{
-            //    Database.DomainModel.Review rev = mongo.GetReview(new ObjectId(r.Id.ToString()));
-            //    avg += rev.Grade;
-            //}
-            //avg /= count;
-
-            List<double> lista = mongo.AverageGrade(objID);//pitanje dal ce da radi kad se dodaju reviewi
+            List<double> lista = mongo.AverageGrade(objID);
 
             return Json(new {number=lista[1],grade=lista[0] },JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetReviews(string id)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId objID = new ObjectId(id);
+
+            Database.DomainModel.Product product = mongo.GetProduct(objID);
+            List<MongoDBRef> rev = product.Reviews;
+            int count = product.Reviews.Count;
+
+            List<Database.DomainModel.ReviewShow> reviews = new List<Database.DomainModel.ReviewShow>();
+            List<Database.DomainModel.UserShow> users = new List<Database.DomainModel.UserShow>();
+
+            foreach(MongoDBRef r in rev)
+            {
+                Database.DomainModel.Review review = mongo.GetReview(new ObjectId(r.Id.ToString()));
+                Database.DomainModel.User user = mongo.GetUser(new ObjectId(review.User.Id.ToString()));
+
+                Database.DomainModel.UserShow userShow = new Database.DomainModel.UserShow
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Address = user.Address
+                };
+
+                Database.DomainModel.ReviewShow reviewShow = new Database.DomainModel.ReviewShow
+                {
+                    Id=review.Id,
+                    Grade=review.Grade,
+                    Comment=review.Comment
+                };
+                reviews.Add(reviewShow);
+                users.Add(userShow);
+            }
+
+            return Json(new { number = count, revs=reviews, people=users }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetComments(string id)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId objID = new ObjectId(id);
+
+            Database.DomainModel.Product product = mongo.GetProduct(objID);
+            List<MongoDBRef> mess = product.Messages;
+            int count = product.Messages.Count;
+            string role;
+            if (User.IsInRole("Admin"))
+                role = "Admin";
+            else
+                role = "User";
+
+            List<Database.DomainModel.MessageShow> comments = new List<Database.DomainModel.MessageShow>();
+            List<Database.DomainModel.UserShow> users = new List<Database.DomainModel.UserShow>();
+
+            foreach (MongoDBRef r in mess)
+            {
+                Database.DomainModel.Message comment = mongo.GetComment(new ObjectId(r.Id.ToString()));
+                Database.DomainModel.User user = mongo.GetUser(new ObjectId(comment.User.Id.ToString()));
+
+                Database.DomainModel.MessageShow messShow = new Database.DomainModel.MessageShow
+                {
+                    Id = comment.Id,
+                    Content=comment.Content
+                };
+                Database.DomainModel.UserShow userShow = new Database.DomainModel.UserShow
+                {
+                    Id=user.Id,
+                    Name=user.Name,
+                    Surname=user.Surname,
+                    Email=user.Email,
+                    Phone=user.Phone,
+                    Address=user.Address
+                };
+                comments.Add(messShow);
+                users.Add(userShow);
+            }
+
+            return Json(new { number = count, status=role, com = comments, people = users },JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void AddComment(string prodId, string content)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            Database.DomainModel.Message newMessage = new Database.DomainModel.Message
+            {
+                Content=content,
+                Product=new MongoDBRef("products",new ObjectId(prodId))
+            };
+
+            mongo.AddComment(newMessage, prodId, User.Identity.Name);
+        }
+
+        [HttpPost]
+        public void AddReview(string id, double grade, string comment)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            Database.DomainModel.Review newReview = new Database.DomainModel.Review
+            {
+                Grade=grade,
+                Comment=comment,
+                Product=new MongoDBRef("products",new ObjectId(id))
+            };
+
+            mongo.AddReview(newReview, id, User.Identity.Name);
         }
     }
 }

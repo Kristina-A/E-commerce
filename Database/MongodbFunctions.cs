@@ -120,7 +120,7 @@ namespace Database
         {
             List<double> lista = new List<double>();
             var reviewsCollection = db.GetCollection<Review>("reviews");
-            var filter = Builders<Review>.Filter.Eq("Product", id);
+            var filter = Builders<Review>.Filter.Eq("Product", new MongoDBRef("products",id));
             var res = reviewsCollection.Aggregate().Match(filter).Group(c => c.Product, g =>
                      new
                      {
@@ -142,5 +142,81 @@ namespace Database
             }
         }
 
+        public User GetUser(ObjectId id)
+        {
+            var usersCollection = db.GetCollection<User>("users");
+
+            var filter = Builders<User>.Filter.Eq("_id", id);
+            var users = usersCollection.Find(filter);
+
+            return users.First();
+        }
+
+        public User GetUser(string email)
+        {
+            var usersCollection = db.GetCollection<User>("users");
+
+            var filter = Builders<User>.Filter.Eq("Email", email);
+
+            return usersCollection.Find(filter).First();
+        }
+
+        public Message GetComment(ObjectId id)
+        {
+            var commentsCollection = db.GetCollection<Message>("messages");
+
+            var filter = Builders<Message>.Filter.Eq("_id", id);
+            var comments = commentsCollection.Find(filter);
+
+            return comments.First();
+        }
+
+        public void AddComment(Message message, string prodId, string email)
+        {
+            User user = GetUser(email);
+
+            message.User = new MongoDBRef("users", user.Id);
+            var commentsCollection = db.GetCollection<Message>("messages");
+            var usersCollection = db.GetCollection<User>("users");
+            var productsCollection = db.GetCollection<Product>("products");
+
+            commentsCollection.InsertOne(message);
+
+            user.Messages.Add(new MongoDBRef("messages",message.Id));
+            Product prod = GetProduct(new ObjectId(prodId));
+            prod.Messages.Add(new MongoDBRef("messages", message.Id));
+
+            var update = Builders<User>.Update.Set("Messages", user.Messages);
+            var filter = Builders<User>.Filter.Eq("Email", email);
+            var update1 = Builders<Product>.Update.Set("Messages", prod.Messages);
+            var filter1 = Builders<Product>.Filter.Eq("_id", new ObjectId(prodId));
+
+            usersCollection.UpdateOne(filter, update);
+            productsCollection.UpdateOne(filter1, update1);
+        }
+
+        public void AddReview(Review review, string prodId, string email)
+        {
+            User user = GetUser(email);
+
+            review.User = new MongoDBRef("users", user.Id);
+            var reviewsCollection = db.GetCollection<Review>("reviews");
+            var usersCollection = db.GetCollection<User>("users");
+            var productsCollection = db.GetCollection<Product>("products");
+
+            reviewsCollection.InsertOne(review);
+
+            user.Reviews.Add(new MongoDBRef("reviews", review.Id));
+            Product prod = GetProduct(new ObjectId(prodId));
+            prod.Reviews.Add(new MongoDBRef("reviews", review.Id));
+
+            var update = Builders<User>.Update.Set("Reviews", user.Reviews);
+            var filter = Builders<User>.Filter.Eq("Email", email);
+            var update1 = Builders<Product>.Update.Set("Reviews", prod.Reviews);
+            var filter1 = Builders<Product>.Filter.Eq("_id", new ObjectId(prodId));
+
+            usersCollection.UpdateOne(filter, update);
+            productsCollection.UpdateOne(filter1, update1);
+        }
     }
 }
