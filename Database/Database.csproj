@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\AdminResponse.cs" />
     <Compile Include="DomainModel\Category.cs" />
     <Compile Include="DomainModel\Message.cs" />
     <Compile Include="DomainModel\MessageShow.cs" />

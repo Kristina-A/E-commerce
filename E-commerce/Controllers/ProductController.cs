@@ -198,11 +198,19 @@ namespace E_commerce.Controllers
             {
                 Database.DomainModel.Message comment = mongo.GetComment(new ObjectId(r.Id.ToString()));
                 Database.DomainModel.User user = mongo.GetUser(new ObjectId(comment.User.Id.ToString()));
+                List<string> responses = new List<string>();
+
+                foreach (MongoDBRef rr in comment.Responses)
+                {
+                    Database.DomainModel.AdminResponse response = mongo.GetResponse(new ObjectId(rr.Id.ToString()));
+                    responses.Add(response.Content);
+                }
 
                 Database.DomainModel.MessageShow messShow = new Database.DomainModel.MessageShow
                 {
-                    Id = comment.Id,
-                    Content=comment.Content
+                    Id = comment.Id.ToString(),
+                    Content=comment.Content,
+                    Responses=responses
                 };
                 Database.DomainModel.UserShow userShow = new Database.DomainModel.UserShow
                 {
@@ -247,6 +255,22 @@ namespace E_commerce.Controllers
             };
 
             mongo.AddReview(newReview, id, User.Identity.Name);
+        }
+
+        [HttpPost]
+        public void AddResponse(string id, string content)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            ObjectId messId = new ObjectId(id);
+
+            Database.DomainModel.AdminResponse newResponse = new Database.DomainModel.AdminResponse
+            {
+                Content=content,
+                Message=new MongoDBRef("messages",messId)
+            };
+
+            mongo.AddResponse(newResponse, messId);
         }
     }
 }

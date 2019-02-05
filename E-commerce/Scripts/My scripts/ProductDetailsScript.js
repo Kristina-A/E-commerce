@@ -1,12 +1,13 @@
-﻿function ocistiModal() {
+﻿function clearModal() {
     $("#inputNameChar").val("");
     $("#inputValueChar").val("");
 }
 
-function addComment(name, surname, comment, role) {
+function addComment(id,name, surname, comment, role) {
     var div = document.getElementById("comments");
 
     var commentDiv = document.createElement("div");
+    commentDiv.setAttribute("id", "comment" + id);
 
     var labelUser = document.createElement("label");
     labelUser.setAttribute("class", "col-sm-7");
@@ -17,20 +18,58 @@ function addComment(name, surname, comment, role) {
     labelContent.setAttribute("class", "col-sm-7");
     labelContent.innerHTML = comment;
 
-    var labelReply;
+    var divReply;
     if (role == "Admin") {
-        labelReply = document.createElement("label");
-        labelReply.setAttribute("class", "col-sm-7");
-        labelReply.innerHTML = "odgovor";
-        labelReply.style.marginLeft = "50px";
-        labelReply.style.color = "blue";
+        divReply = document.createElement("div");
+        divReply.setAttribute("class", "form-group");
+        divReply.style.marginLeft = "50px";
+
+        var inputReply = document.createElement("textarea");
+        inputReply.setAttribute("rows", "3");
+        inputReply.setAttribute("class", "form-control col-sm-4");
+        inputReply.setAttribute("id", id);
+        inputReply.setAttribute("placeholder", "Unesite odgovor");
+        divReply.appendChild(inputReply);
+
+        var replyButton = document.createElement("button");
+        replyButton.setAttribute("class", "btn btn-info");
+        replyButton.setAttribute("type", "button");
+        replyButton.innerHTML = "Odgovori";
+        divReply.appendChild(replyButton);
+
+        replyButton.addEventListener("click", function () {
+            var mess = $("#" + id).val();
+            $.ajax({
+                type: "POST",
+                url: '/Product/AddResponse',
+                data: { "id": id,"content":mess },
+                success: function () {
+                    $("#" + id).val("");
+                    addReply(id, mess);
+                },
+                error: function () {
+                    alert("fail");
+                }
+            });
+        });
     }
 
     commentDiv.appendChild(labelUser);
     commentDiv.appendChild(labelContent);
-    if(role=="Admin")
-        commentDiv.appendChild(labelReply);
+    if (role == "Admin") {
+        commentDiv.appendChild(divReply);
+    }
     div.appendChild(commentDiv);
+}
+
+function addReply(id, reply) {
+    var div = document.getElementById("comment" + id);
+
+    var lab = document.createElement("label");
+    lab.setAttribute("class", "col-sm-7");
+    lab.style.marginLeft = "50px";
+    lab.innerHTML = reply;
+    div.appendChild(lab);
 }
 
 function addReview(name, surname, grade, comment) {
@@ -139,7 +178,7 @@ $(document).ready(function () {
 
     $("#characteristicsModal").on("show.bs.modal", function (e) {
         button = e.relatedTarget.id;
-        ocistiModal();
+        clearModal();
         if (button == "editChar") {
             row = e.relatedTarget.closest("tr");
             var name = $(row).find('td.name').text();
@@ -232,7 +271,12 @@ $(document).ready(function () {
                     var num = data.number;
                     for (var i = 0; i < num; i++) {
                         var role = data.status;
-                        addComment(data.people[i]["Name"], data.people[i]["Surname"], data.com[i]["Content"], role);
+                        addComment(data.com[i]["Id"], data.people[i]["Name"], data.people[i]["Surname"], data.com[i]["Content"], role);
+
+                        var responses = data.com[i]["Responses"];
+                        for (var j = 0; j < responses.length; j++) {
+                            addReply(data.com[i]["Id"], responses[j])
+                        }
                     }
                     $("#showComments").addClass("disabled");
                 },

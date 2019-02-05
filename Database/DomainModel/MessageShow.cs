@@ -10,7 +10,13 @@ namespace Database.DomainModel
 {
     public class MessageShow
     {
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
         public string Content { get; set; }
+        public List<string> Responses { get; set; }
+
+        public MessageShow()
+        {
+            Responses = new List<string>();
+        }
     }
 }

@@ -171,6 +171,16 @@ namespace Database
             return comments.First();
         }
 
+        public AdminResponse GetResponse(ObjectId id)
+        {
+            var responsesCollection = db.GetCollection<AdminResponse>("adminresponses");
+
+            var filter = Builders<AdminResponse>.Filter.Eq("_id", id);
+            var responses = responsesCollection.Find(filter);
+
+            return responses.First();
+        }
+
         public void AddComment(Message message, string prodId, string email)
         {
             User user = GetUser(email);
@@ -217,6 +227,23 @@ namespace Database
 
             usersCollection.UpdateOne(filter, update);
             productsCollection.UpdateOne(filter1, update1);
+        }
+
+        public void AddResponse(AdminResponse response,ObjectId messId)
+        {
+            Message message = GetComment(messId);
+
+            var responsesCollection = db.GetCollection<AdminResponse>("adminresponses");
+            var commentsCollection = db.GetCollection<Message>("messages");
+
+            responsesCollection.InsertOne(response);
+
+            message.Responses.Add(new MongoDBRef("adminresponses", response.Id));
+
+            var update = Builders<Message>.Update.Set("Responses", message.Responses);
+            var filter = Builders<Message>.Filter.Eq("_id", messId);
+
+            commentsCollection.UpdateOne(filter, update);
         }
     }
 }

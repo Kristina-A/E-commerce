@@ -8,17 +8,10 @@ using MongoDB.Driver;
 
 namespace Database.DomainModel
 {
-    public class Message
+    public class AdminResponse
     {
         public ObjectId Id { get; set; }
         public string Content { get; set; }
-        public MongoDBRef User { get; set; }
-        public MongoDBRef Product { get; set; }
-        public List<MongoDBRef> Responses { get; set; }
-
-        public Message()
-        {
-            Responses = new List<MongoDBRef>();
-        }
+        public MongoDBRef Message { get; set; }
     }
 }
