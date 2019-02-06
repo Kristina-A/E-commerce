@@ -245,5 +245,59 @@ namespace Database
 
             commentsCollection.UpdateOne(filter, update);
         }
+
+        public Order GetOpenOrder(ObjectId id)
+        {
+            var ordersCollection = db.GetCollection<Order>("orders");
+
+            var filter = Builders<Order>.Filter.And(Builders<Order>.Filter.Eq("User", new MongoDBRef("users", id))
+                                                    , Builders<Order>.Filter.Eq("Status", "opened"));
+
+            var orders = ordersCollection.Find(filter).ToList();
+
+            if (orders.Count == 0)
+                return null;
+            else
+                return orders.First();
+        }
+
+        public void AddUpdateOrder(Order order, string email, string addupdate)
+        {
+            var ordersCollection = db.GetCollection<Order>("orders");
+            
+            if(addupdate.Equals("add"))
+            {
+                var usersCollection = db.GetCollection<User>("users");
+
+                User user = GetUser(email);
+                order.User = new MongoDBRef("users", user.Id);
+
+                ordersCollection.InsertOne(order);
+
+                user.Orders.Add(new MongoDBRef("orders",order.Id));
+
+                var update = Builders<User>.Update.Set("Orders", user.Orders);
+                var filter = Builders<User>.Filter.Eq("Email", email);
+
+                usersCollection.UpdateOne(filter, update);
+            }
+            else
+            {
+                var update = Builders<Order>.Update.Set("Products", order.Products);
+                var filter = Builders<Order>.Filter.Eq("_id", order.Id);
+
+                ordersCollection.UpdateOne(filter, update);
+            }
+        }
+
+        public void CloseOrder(ObjectId id)
+        {
+            var ordersCollection = db.GetCollection<Order>("orders");
+
+            var update = Builders<Order>.Update.Set("Status", "closed");
+            var filter = Builders<Order>.Filter.Eq("_id", id);
+
+            ordersCollection.UpdateOne(filter, update);
+        }
     }
 }

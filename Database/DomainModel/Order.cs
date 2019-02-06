@@ -12,8 +12,15 @@ namespace Database.DomainModel
     {
         public ObjectId Id { get; set; }
         public DateTime Date { get; set; }
-        public string Note { get; set; }//napomena
+        public string Note { get; set; }
         public string PayingMethod { get; set; }
+        public string Status { get; set; }
         public MongoDBRef User { get; set; }
+        public List<MongoDBRef> Products { get; set; }
+
+        public Order()
+        {
+            Products = new List<MongoDBRef>();
+        }
     }
 }

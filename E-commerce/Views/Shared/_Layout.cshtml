@@ -14,7 +14,7 @@
 
         <!--ICON-->
         <a class="navbar-brand offset-10" href="@Url.Action("Index", "Home")" style="margin-left: 60px;">
-            <img id="logo" src="~/Resources/Logo Orange.png" alt="GBC Web Shop" width="150" height="60"/>
+            <img id="logo" src="~/Resources/Logo Orange.png" alt="GBC Web Shop" width="150" height="60" />
         </a>
 
         <!--HAMBURGER FOR RESPONSIVENESS-->
@@ -26,19 +26,18 @@
         <div class="collapse navbar-collapse offset-lg-6" id="navbarTogglerDemo02">
             @if (User.IsInRole("User"))
             {
-                <div class="dropdown">
+                <div class="col-sm-4">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge badge-secondary">0</span>
+                        <span class="badge badge-secondary" id="numProducts">0</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <p class="dropdown-item">Total: $$$</p>
+                        <p class="dropdown-item" id="total">Ukupno: </p>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Item 1</a>
-                        <a class="dropdown-item" href="#">Item 2</a>
-                        <a class="dropdown-item" href="#">Item 3</a>
+                        <p id="items">
+                        </p>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item btn-outline-dark" href="#">Check out</a>
+                        <a class="dropdown-item btn-outline-dark" href="@Url.Action("Checkout", "Order")">Dalje</a>
                     </div>
                 </div>
             }
@@ -56,6 +55,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/My scripts/BuyScript.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

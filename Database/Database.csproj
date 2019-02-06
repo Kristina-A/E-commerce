@@ -64,8 +64,8 @@
     <Compile Include="DomainModel\Message.cs" />
     <Compile Include="DomainModel\MessageShow.cs" />
     <Compile Include="DomainModel\Order.cs" />
-    <Compile Include="DomainModel\Ordered.cs" />
     <Compile Include="DomainModel\Product.cs" />
+    <Compile Include="DomainModel\ProductShow.cs" />
     <Compile Include="DomainModel\Review.cs" />
     <Compile Include="DomainModel\ReviewShow.cs" />
     <Compile Include="DomainModel\User.cs" />

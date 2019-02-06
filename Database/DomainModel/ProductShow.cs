@@ -8,10 +8,10 @@ using MongoDB.Driver;
 
 namespace Database.DomainModel
 {
-    public class Ordered
+    public class ProductShow
     {
-        public ObjectId Id { get; set; }
-        public MongoDBRef Product { get; set; }
-        public MongoDBRef Order { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int Price { get; set; }
     }
 }

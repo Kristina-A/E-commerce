@@ -342,4 +342,18 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#addToChart").on("click", function () {
+        $.ajax({
+            type: "POST",
+            url: '/Order/AddToChart',
+            data: { "id": prodID },
+            success: function () {
+                window.location.href = '/Product/ProductDetails/' + prodID;
+            },
+            error: function () {
+                alert("fail");
+            }
+        });
+    });
 })
