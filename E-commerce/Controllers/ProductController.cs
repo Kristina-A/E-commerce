@@ -7,6 +7,7 @@ using Database;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Newtonsoft.Json;
+using Database.DomainModel;
 
 namespace E_commerce.Controllers
 {
@@ -63,6 +64,27 @@ namespace E_commerce.Controllers
                 return View(product);
             else
                 return HttpNotFound();
+        }
+
+        public ActionResult CategoryProducts(string category)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            if (category.Equals(""))
+                return RedirectToAction("Home", "Index");
+
+            ViewBag.categoryName = category;
+            return View(mongo.GetCategoriyProducts(category));
+        }
+
+        public ActionResult SearchProduct(string name)
+        {
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            if (name.Equals(""))
+                return RedirectToAction("Home", "Index");
+
+            return View(mongo.SearchForProductsByName(name));
         }
 
         [HttpPost]

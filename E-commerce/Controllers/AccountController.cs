@@ -165,6 +165,7 @@ namespace E_commerce.Controllers
                     await roleManager.CreateAsync(new IdentityRole("User"));
                     await UserManager.AddToRoleAsync(user.Id, "User");
 
+                    // Uncomment to add admin
                     //await roleManager.CreateAsync(new IdentityRole("Admin"));
                     //await UserManager.AddToRoleAsync(user.Id, "Admin");
                     //////////////////////////////////////////////////////

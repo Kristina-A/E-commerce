@@ -68,6 +68,39 @@ namespace Database
             return categories.First();
         }
 
+        public List<Category> GetCategories()
+        {
+            var categoriesCollection = db.GetCollection<Category>("categories");
+
+            return categoriesCollection.Find(Builders<Category>.Filter.Empty).ToList();
+        }
+
+        public List<Product> GetProducts()
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            return productsCollection.Find(Builders<Product>.Filter.Empty).ToList();
+        }
+
+        public List<Product> GetCategoriyProducts(string category)
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.Eq("Subcategory", category);
+
+            return productsCollection.Find(filter).ToList();
+        }
+
+        public List<Product> SearchForProductsByName(string name)
+        {
+            var productsCollection = db.GetCollection<Product>("products");
+
+            var filter = Builders<Product>.Filter.In("Name", name);
+            var products = productsCollection.Find(filter);
+
+            return products.ToList();
+        }
+
         public Product GetProduct(ObjectId id)
         {
             var productsCollection = db.GetCollection<Product>("products");

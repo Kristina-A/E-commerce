@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Database;
+using Database.DomainModel;
 
 namespace E_commerce.Controllers
 {
@@ -10,7 +12,11 @@ namespace E_commerce.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            MongodbFunctions mongo = new MongodbFunctions();
+
+            var randomproducts = mongo.GetProducts();
+
+            return View(randomproducts);
         }
 
         public ActionResult About()
