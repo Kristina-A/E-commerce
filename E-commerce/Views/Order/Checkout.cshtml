@@ -74,9 +74,12 @@
 
         <br />
         <br />
-        <button class="btn btn-success col-sm-offset-3 btn-lg" id="shop" type="button"><i class="fas fa-check"></i><span>&nbsp; Kupi proizvode</span></button>
-        <button class="btn btn-danger col-sm-offset-1 btn-lg" id="discardShopping" type="button"><i class="fas fa-times"></i><span>&nbsp; Otkaži kupovinu</span></button>
-        <br /> <br />
+        @if (Model.Products.Count>0)
+        {
+            <button class="btn btn-success col-sm-offset-3 btn-lg" id="shop" type="button"><i class="fas fa-check"></i><span>&nbsp; Kupi proizvode</span></button>
+            <button class="btn btn-danger col-sm-offset-1 btn-lg" id="discardShopping" type="button"><i class="fas fa-times"></i><span>&nbsp; Otkaži kupovinu</span></button>
+            <br /> <br />
+        }
     </form>
 
     <div class="col-md-6">

@@ -23,10 +23,13 @@ namespace E_commerce.Controllers
             details.User = user;
             List<Database.DomainModel.Product> products = new List<Database.DomainModel.Product>();
 
-            foreach(MongoDBRef r in order.Products)
+            if (order != null)
             {
-                Database.DomainModel.Product product = mongo.GetProduct(new ObjectId(r.Id.ToString()));
-                products.Add(product);
+                foreach (MongoDBRef r in order.Products)
+                {
+                    Database.DomainModel.Product product = mongo.GetProduct(new ObjectId(r.Id.ToString()));
+                    products.Add(product);
+                }
             }
             details.Products = products;
 
@@ -107,7 +110,10 @@ namespace E_commerce.Controllers
 
             order.Products.Remove(new MongoDBRef("products", new ObjectId(id)));
 
-            mongo.RemoveProduct(order);
+            if (order.Products.Count > 0)
+                mongo.RemoveProduct(order);
+            else
+                mongo.DeleteOrder(order.Id);
         }
 
         [HttpPost]
