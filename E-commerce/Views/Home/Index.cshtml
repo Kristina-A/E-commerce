@@ -60,8 +60,8 @@
             <li>
                 <span class="caret">Mobilni uređaji</span>
                 <ul class="nested">
-                    <li><i class="fas fa-circle fa-xs"></i> <a href="@Url.Action("CategoryProducts", "Product", new { category = "Laptopovi i tableti" })"  style="text-decoration: none; color: white;"> Laptopovi i tableti</a></li>
-                    <li><i class="fas fa-circle fa-xs"></i> Mobilni telefoni</li>
+                    <li><i class="fas fa-circle fa-xs"></i> <a href="@Url.Action("CategoryProducts", "Product", new { category = "Laptop i tablet" })"  style="text-decoration: none; color: white;"> Laptopovi i tableti</a></li>
+                    <li><i class="fas fa-circle fa-xs"></i> <a href="@Url.Action("CategoryProducts", "Product", new { category = "Telefoni" })" style="text-decoration: none; color: white;"> Mobilni telefoni</a></li>
                 </ul>
             </li>
             <hr />
@@ -112,7 +112,7 @@
                 <hr />
                 <p class="card-text" style="font: bold; color: red;">Cena: @product.Price</p>
                 <hr />
-                <a href="../Product/ProductDetails/@product.Id" class="btn btn-dark" style="margin-left: 45px;">Pogledaj proizvod</a>
+                <a href="/Product/ProductDetails/@product.Id" class="btn btn-dark" style="margin-left: 45px;">Pogledaj proizvod</a>
             </div>
         </div>
     }

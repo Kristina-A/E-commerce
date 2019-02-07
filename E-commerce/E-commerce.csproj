@@ -291,6 +291,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\My scripts\BuyScript.js" />
+    <Content Include="Scripts\My scripts\CheckoutScript.js" />
     <Content Include="Scripts\My scripts\HomePageScript.js" />
     <Content Include="Scripts\My scripts\NewProductScript.js" />
     <Content Include="Scripts\My scripts\ProductDetailsScript.js" />

@@ -13,11 +13,13 @@ namespace E_commerce.Controllers
 {
     public class ProductController : Controller
     {
+        [Authorize (Roles ="Admin")]
         public ActionResult NewProduct()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public void AddNewProduct(string name, string category, string subcategory, int price, string characteristics)
         {
@@ -41,6 +43,7 @@ namespace E_commerce.Controllers
             mongo.InsertProduct(newProduct,category);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public JsonResult ReturnSubcategories(string option)
         {
@@ -87,6 +90,7 @@ namespace E_commerce.Controllers
             return View(mongo.SearchForProductsByName(name));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public void DeleteProduct(string id)
         {
@@ -95,6 +99,7 @@ namespace E_commerce.Controllers
             mongo.DeleteProduct(objID);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public void EditProduct(string id, string name, int price)
         {
@@ -118,6 +123,7 @@ namespace E_commerce.Controllers
             mongo.UpdateProduct(objID, name, price, path);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public void EditCharacteristics(string id, string charName, string charValue, string oldN, string oldV)
         {
@@ -250,6 +256,7 @@ namespace E_commerce.Controllers
             return Json(new { number = count, status=role, com = comments, people = users },JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public void AddComment(string prodId, string content)
         {
@@ -264,6 +271,7 @@ namespace E_commerce.Controllers
             mongo.AddComment(newMessage, prodId, User.Identity.Name);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public void AddReview(string id, double grade, string comment)
         {
@@ -279,6 +287,7 @@ namespace E_commerce.Controllers
             mongo.AddReview(newReview, id, User.Identity.Name);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public void AddResponse(string id, string content)
         {

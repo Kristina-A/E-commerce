@@ -323,14 +323,46 @@ namespace Database
             }
         }
 
-        public void CloseOrder(ObjectId id)
+        public void CloseOrder(Order order)
         {
             var ordersCollection = db.GetCollection<Order>("orders");
 
-            var update = Builders<Order>.Update.Set("Status", "closed");
-            var filter = Builders<Order>.Filter.Eq("_id", id);
+            var update = Builders<Order>.Update.Set("Status", "closed")
+                                               .Set("Note", order.Note)
+                                               .Set("PayingMethod", order.PayingMethod)
+                                               .Set("Address", order.Address);
+            var filter = Builders<Order>.Filter.Eq("_id", order.Id);
 
             ordersCollection.UpdateOne(filter, update);
+        }
+
+        public void RemoveProduct(Order order)
+        {
+            var ordersCollection = db.GetCollection<Order>("orders");
+
+            var update = Builders<Order>.Update.Set("Products", order.Products);
+            var filter = Builders<Order>.Filter.Eq("_id", order.Id);
+
+            ordersCollection.UpdateOne(filter, update);
+        }
+
+        public void DeleteOrder(ObjectId id)
+        {
+            var ordersCollection = db.GetCollection<Order>("orders");
+
+            var filter = Builders<Order>.Filter.Eq("_id", id);
+
+            ordersCollection.DeleteOne(filter);
+        }
+
+        public void UpdateAddresses(User user)
+        {
+            var usersCollection = db.GetCollection<User>("users");
+
+            var filter = Builders<User>.Filter.Eq("_id", user.Id);
+            var update = Builders<User>.Update.Set("Address", user.Address);
+
+            usersCollection.UpdateOne(filter, update);
         }
     }
 }
