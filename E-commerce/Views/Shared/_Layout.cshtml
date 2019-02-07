@@ -4,16 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GBC Web shop</title>
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+
+    <nav class="container navbar-expand-lg navbar-dark bg-dark fixed-top d-flex" style="padding-left: 0px !important; padding-right: 0px !important; align-items: center;">
 
         <!--ICON-->
-        <a class="navbar-brand offset-10" href="@Url.Action("Index", "Home")" style="margin-left: 60px;">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="margin-left: 60px;">
             <img id="logo" src="~/Resources/Logo Orange.png" alt="GBC Web Shop" width="150" height="60" />
         </a>
 
@@ -22,11 +26,35 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        @if (User.IsInRole("User"))
+        {
+            <span style="margin: 0 0 0 180px;">
+                <input type="search" id="searchBar" name="name" placeholder="Potražite proizvod" style=" border: none; border-radius: 20px; padding: 7px; padding-left: 12px;" />
+                <button class="btn btn-outline-light" onclick="SearchProduct()" style="border-radius: 10px">Pretraži</button>
+            </span>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <span style="margin: 0 30px 0 200px;">
+                <input type="search" id="searchBar" name="name" placeholder="Potražite proizvod" style=" border: none; border-radius: 20px; padding: 7px; padding-left: 12px;" />
+                <button class="btn btn-outline-light" onclick="SearchProduct()" style="border-radius: 10px">Pretraži</button>
+            </span>
+            <button type="button" class="btn btn-success btn-sm" id="btnAddProduct" style="margin-right: 20px;"><i class="fas fa-plus"></i> &nbsp; Dodaj proizvod</button>
+        }
+        else
+        {
+            <span style="margin: 0 20px 0 435px;">
+                <input type="search" id="searchBar" name="name" placeholder="Potražite proizvod" style=" border: none; border-radius: 20px; padding: 7px; padding-left: 12px;" />
+                <button class="btn btn-outline-light" onclick="SearchProduct()" style="border-radius: 10px">Pretraži</button>
+            </span>
+        }
+
+
         <!--LINKS NEXT TO ICON THAT WILL BE COLLAPSED WHEN SCREEN IS SMALLER-->
-        <div class="collapse navbar-collapse offset-lg-6" id="navbarTogglerDemo02">
+        <div class="collapse navbar-collapse mr-auto" id="navbarTogglerDemo02">
             @if (User.IsInRole("User"))
             {
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="badge badge-secondary" id="numProducts">0</span>
@@ -37,7 +65,7 @@
                         <p id="items">
                         </p>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item btn-outline-dark" href="@Url.Action("Checkout", "Order")">Dalje</a>
+                        <a class="dropdown-item btn-outline-dark" href="@Url.Action("Checkout", "Order")">Završi kupovinu</a>
                     </div>
                 </div>
             }
@@ -45,7 +73,9 @@
         </div>
     </nav>
 
-    <div class="container body-content">
+
+
+    <div class="container" style="padding-left: 0px !important; padding-right: 0px !important;">
         @RenderBody()
         <hr />
         <footer>
@@ -55,6 +85,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/My scripts/NavBarScript.js")
     @Scripts.Render("~/Scripts/My scripts/BuyScript.js")
     @RenderSection("scripts", required: false)
 </body>

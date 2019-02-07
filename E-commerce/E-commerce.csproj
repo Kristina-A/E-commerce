@@ -292,6 +292,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\My scripts\BuyScript.js" />
     <Content Include="Scripts\My scripts\HomePageScript.js" />
+    <Content Include="Scripts\My scripts\NavBarScript.js" />
     <Content Include="Scripts\My scripts\NewProductScript.js" />
     <Content Include="Scripts\My scripts\ProductDetailsScript.js" />
     <Content Include="Scripts\popper-utils.js" />

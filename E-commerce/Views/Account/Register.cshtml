@@ -1,15 +1,18 @@
 ﻿@model E_commerce.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "GBC Webshop registracija";
 }
 
 <br />
-<h2>@ViewBag.Title.</h2>
+<br />
+<br />
+<hr />
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <h4>Kreirajte novi nalog.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
@@ -45,7 +48,7 @@
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
         </div>
-        <span style="margin-left: 20px; font-size: 12px;">*You can add more adresses when you order.</span>
+        <span style="margin-left: 20px; font-size: 12px;">*Kasnije možete da dodate još adresa.</span>
     </div>
     <div class="form-group">
         <i class="fas fa-key" style="margin-left: 20px;"></i>
@@ -62,7 +65,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default btn-outline-dark" value="Register" />
+            <input type="submit" class="btn btn-default btn-outline-dark" value="Registracija" />
         </div>
     </div>
 }

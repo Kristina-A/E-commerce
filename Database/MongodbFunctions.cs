@@ -95,7 +95,7 @@ namespace Database
         {
             var productsCollection = db.GetCollection<Product>("products");
 
-            var filter = Builders<Product>.Filter.In("Name", name);
+            var filter = Builders<Product>.Filter.Regex("Name", new BsonRegularExpression(".*" + name + ".*", "i"));
             var products = productsCollection.Find(filter);
 
             return products.ToList();

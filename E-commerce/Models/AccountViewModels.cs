@@ -55,21 +55,21 @@ namespace E_commerce.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Šifra")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Zapamti me?")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Ime")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Surname")]
+        [Display(Name = "Prezime")]
         public string Surname { get; set; }
 
         [Required]
@@ -79,21 +79,21 @@ namespace E_commerce.Models
 
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone number")]
+        [Display(Name = "Broj telefona")]
         public string Phone { get; set; }
 
         [Required]
-        [Display(Name = "Address")]
+        [Display(Name = "Adresa")]
         public string Address { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Šifra")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Potvrdite šifru")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
