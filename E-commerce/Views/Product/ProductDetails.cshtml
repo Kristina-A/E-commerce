@@ -20,9 +20,13 @@
         {
             <button type="button" class="btn btn-info btn-lg" id="editProduct" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i><span>&nbsp; Izmeni proizvod</span></button>
         }
-        else
+        else if (User.IsInRole("User"))
         {
             <button type="button" class="btn btn-info btn-lg" id="addToChart"><span>Dodaj u korpu &nbsp;</span><i class="fas fa-shopping-cart"></i></button>
+        }
+        else
+        {
+            <label>Prijavite se ili registrujte da biste mogli da kupujete!</label>
         }
         <br />
         <br />
@@ -39,7 +43,7 @@
         {
             <button type="button" class="btn btn-danger btn-lg" id="deleteProduct"><i class="fas fa-trash-alt"></i><span>&nbsp; Obriši proizvod</span></button>
         }
-        else
+        else if (User.IsInRole("User"))
         {
             <label class="col-sm-6 control-label">
                 Ocenite proizvod: <i class="far fa-star" id="1" data-toggle="modal" data-target="#reviewModal"></i>
