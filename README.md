@@ -2,7 +2,8 @@
 Web application for selling and buying technique created in ASP.NET MVC 5 with MongoDB as database.
 
 ## Main page
-- User can see all products, categories and some ads.
+- User can see all products, categories and some ads. He/she can search for a product by its name.
+
 ![image](https://user-images.githubusercontent.com/37186937/74373427-bac77880-4ddc-11ea-8de6-e812bcf41243.png)
 
 ## Category filtering
