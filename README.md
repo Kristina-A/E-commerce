@@ -28,3 +28,5 @@ Web application for selling and buying technique created in ASP.NET MVC 5 with M
 
 ## Checkout
 - Checkout page for ordering products. All the products from shopping cart can be seen. User can delete products from shopping cart. Before placing the order, user has to fill in some personal information about delivery and paying method.
+
+![image](https://user-images.githubusercontent.com/37186937/74374311-73da8280-4dde-11ea-8cbc-a6b38baf7df1.png)
