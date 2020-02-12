@@ -24,5 +24,7 @@ Web application for selling and buying technique created in ASP.NET MVC 5 with M
 ## Add to chart
 - User can see content of his/her shopping cart as well as the total price.
 
+![image](https://user-images.githubusercontent.com/37186937/74374264-5d342b80-4dde-11ea-8d71-f8aa07c9bf2a.png)
+
 ## Checkout
 - Checkout page for ordering products. All the products from shopping cart can be seen. User can delete products from shopping cart. Before placing the order, user has to fill in some personal information about delivery and paying method.
