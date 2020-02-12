@@ -19,6 +19,8 @@ Web application for selling and buying technique created in ASP.NET MVC 5 with M
 ## Product details
 - By clicking on product, its details such as comments, reviews and characteristics can be seen.
 
+![image](https://user-images.githubusercontent.com/37186937/74374214-4261b700-4dde-11ea-9b35-060f6463b806.png)
+
 ## Add to chart
 - User can see content of his/her shopping cart as well as the total price.
 
