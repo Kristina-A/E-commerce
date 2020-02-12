@@ -9,6 +9,8 @@ Web application for selling and buying technique created in ASP.NET MVC 5 with M
 ## Category filtering
 - By clicking on categoty link, all products from that category are displayed.
 
+![image](https://user-images.githubusercontent.com/37186937/74374035-ee56d280-4ddd-11ea-9c40-2863f756e3a8.png)
+
 ## New product
 - User in role admin can add new product by entering some information about product.
 
