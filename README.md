@@ -14,6 +14,8 @@ Web application for selling and buying technique created in ASP.NET MVC 5 with M
 ## New product
 - User in role admin can add new product by entering some information about product.
 
+![image](https://user-images.githubusercontent.com/37186937/74374144-25c57f00-4dde-11ea-8a7f-cac5aa850190.png)
+
 ## Product details
 - By clicking on product, its details such as comments, reviews and characteristics can be seen.
 
